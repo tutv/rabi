@@ -1,0 +1,25 @@
+{
+  "name": "rabi",
+  "version": "2.0.9",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "tsc",
+    "build": "rm -rf dist && tsc",
+    "release": "release-it --ci --verbose --no-increment"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tutv/rabi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "peerDependencies": {
+  }
+}

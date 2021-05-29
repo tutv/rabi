@@ -1,0 +1,9 @@
+.idea/
+
+.gitlab-ci.yml
+.release-it.json
+test/
+src/
+nodemon.json
+
+Tus-MacBook-Pro-2.local-JUAwPoHCD
