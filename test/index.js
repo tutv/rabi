@@ -12,9 +12,17 @@ setImmediate(async () => {
         await rabbit.subscribe('TEST_P', {queue: 'test-queue'}, (msg, meta) => {
             console.log(msg)
             console.log(meta)
+            throw Error('a')
+        })
+
+        await rabbit.processJob('TEST_Q', {}, (msg, meta) => {
+            console.log(msg)
+            console.log(meta)
+            throw Error('a')
         })
 
         await rabbit.publish('TEST_P', {hello: 'word'})
+        await rabbit.addJob('TEST_Q', {hello: 'word'})
 
     } catch (error) {
         console.log("ERROR", error)

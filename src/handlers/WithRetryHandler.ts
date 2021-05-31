@@ -1,9 +1,8 @@
 import {Channel, ConsumeMessage} from 'amqplib'
-import {JobHandler} from './JobHandler'
+import {createExchangeName, createQueueName, JobHandler} from './JobHandler'
 import * as JobHandlerI from '../interfaces/JobHandlerInterface'
 import {findY, findX} from '../helpers/QuadraticRoot'
 import logger from '../helpers/logger'
-
 
 export class WithRetryHandler extends JobHandler {
 
@@ -38,7 +37,7 @@ export class WithRetryHandler extends JobHandler {
 
         /** Assert Retry Queue and bind to Retry Exchange */
         await this.channel.assertQueue(
-            this._getSpecifiedName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.RETRY),
+            this._getQueueName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.RETRY),
             {
                 durable: true,
                 arguments: {
@@ -50,7 +49,7 @@ export class WithRetryHandler extends JobHandler {
             },
         )
         await this.channel.bindQueue(
-            this._getSpecifiedName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.RETRY),
+            this._getQueueName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.RETRY),
             this._getSpecifiedName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.RETRY),
             this._getRoutingKey(),
         )
@@ -63,7 +62,7 @@ export class WithRetryHandler extends JobHandler {
         )
 
         await this.channel.assertQueue(
-            this._getSpecifiedName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.ERROR),
+            this._getQueueName(JobHandlerI.RETRY_ADDITIONAL_QUEUE_TYPES.ERROR),
             {
                 durable: true,
                 arguments: {
@@ -86,8 +85,12 @@ export class WithRetryHandler extends JobHandler {
         return this.option.routingKey || this.queueName
     }
 
+    protected _getQueueName(type: string) {
+        return createQueueName(this.option.prefixQueueName || this.queueName, type)
+    }
+
     protected _getSpecifiedName(type: string): string {
-        return `${this.option.prefixQueueName || this.queueName}-${type}`
+        return createExchangeName(this.option.prefixQueueName || this.queueName, type)
     }
 
     /**

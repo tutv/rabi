@@ -4,8 +4,15 @@ import {JobHandlerException} from '../exceptions/JobHandlerException'
 import {Message} from '../interfaces/JobHandlerInterface'
 import {safeParseJSON} from '../helpers/safeParseJSON'
 
-
 const DEFAULT_CONSUMER_PREFETCH = 10
+
+export function createExchangeName(name: string, type: string) {
+    return `${name}.${type}`
+}
+
+export function createQueueName(name: string, type: string) {
+    return `${name}@${type}`
+}
 
 export abstract class JobHandler {
     protected isInitialize: boolean = false
@@ -30,7 +37,7 @@ export abstract class JobHandler {
     }
 
     protected _getSpecifiedName(type: string): string {
-        return `${this.queueName}-${type}`
+        return createExchangeName(this.queueName, type)
     }
 
     public async run(handler: JobHandlerI.Handler, onError?: JobHandlerI.OnError) {

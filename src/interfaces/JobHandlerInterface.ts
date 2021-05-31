@@ -1,4 +1,4 @@
-import {Channel, ConsumeMessage} from 'amqplib'
+import {ConsumeMessage} from 'amqplib'
 
 export interface JobOption {
     manually?: boolean,

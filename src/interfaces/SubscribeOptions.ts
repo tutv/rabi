@@ -1,3 +1,5 @@
+import {JobHandlerConstructor} from '../handlers/JobHandler'
+
 export enum JobHandlerType {
     ONE_SHOT = 'OneShotHandler',
     WITH_RETRY = 'WithRetryHandler',
@@ -5,6 +7,7 @@ export enum JobHandlerType {
 }
 
 export interface BaseOptions {
+    JobHandler?: JobHandlerConstructor,
     oneShot?: boolean,
     noAck?: boolean,
     jobHandlerType?: JobHandlerType
