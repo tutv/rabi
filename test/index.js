@@ -9,19 +9,19 @@ setImmediate(async () => {
 
         const rabbit = new Rabbit(conn)
 
-        await rabbit.subscribe('TEST_P', {queue: 'test-queue'}, (msg, meta) => {
-            console.log(msg)
-            console.log(meta)
-            throw Error('a')
-        })
+        // await rabbit.subscribe('TEST_P', {queue: 'test-queue'}, (msg, meta) => {
+        //     console.log(msg)
+        //     console.log(meta)
+        //     throw Error('a')
+        // })
 
         await rabbit.processJob('TEST_Q', {}, (msg, meta) => {
-            console.log(msg)
+            console.log(msg.body)
             console.log(meta)
-            throw Error('a')
+            // throw Error('a')
         })
 
-        await rabbit.publish('TEST_P', {hello: 'word'})
+        // await rabbit.publish('TEST_P', {hello: 'word'})
         await rabbit.addJob('TEST_Q', {hello: 'word'})
 
     } catch (error) {

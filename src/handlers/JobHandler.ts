@@ -11,7 +11,7 @@ export function createExchangeName(name: string, type: string) {
 }
 
 export function createQueueName(name: string, type: string) {
-    return `${name}@${type}`
+    return `${name}.${type}`
 }
 
 export abstract class JobHandler {
